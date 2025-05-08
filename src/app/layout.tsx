@@ -32,8 +32,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
         style={{ fontFamily: "var(--font-geist-mono)" }}
       >
-        <Analytics />
         {children}
+        <Analytics />
       </body>
     </html>
   );
