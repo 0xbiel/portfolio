@@ -217,7 +217,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-2">
                     <img
-                      src="https://getfoundry.sh/logo.png"
+                      src="https://getfoundry.sh/foundry-logo.png"
                       alt="Foundry"
                       className="w-6 h-6"
                     />
