@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Navbar from "@/components/ui/Navbar";
 import Header from "@/components/ui/Header";
+import About from "@/components/ui/About";
+import Footer from "@/components/ui/Footer";
 import WorkItem from "@/components/ui/WorkItem";
 import ProjectItem from "@/components/ui/ProjectItem";
 import ProjectFilter from "@/components/ui/ProjectFilter";
@@ -70,41 +73,12 @@ export default function Home() {
   return (
     <>
       <Header />
+      <Navbar />
       <div className="max-w-3xl mx-auto min-h-screen px-6 py-12">
         {/* Main Content */}
         <main className="space-y-20">
-          {/* Introduction */}
-          <section className="space-y-4">
-            <h1 className="text-3xl font-bold text-[var(--main-color)]">
-              0xbiel
-            </h1>
-            <div className="flex items-center space-x-2 text-sm opacity-80">
-              <span className="flex items-center gap-2">
-                <img src="pin.svg" alt="pin" className="w-4 h-4 dark:invert" />
-                Mallorca, Spain
-              </span>
-              <span className="text-xs">•</span>
-              <span>Full Stack Dev</span>
-            </div>
-            <p className="text-lg leading-relaxed text-[16px]">
-              👋 Hi! I&apos;m Biel, a 19y/o Computer Engineering and Business
-              Administration undergraduate. I love learning and constantly
-              improving. Right now, I&apos;m especially interested in DeFi and
-              EVM-based projects.
-            </p>
-            <p className="text-lg leading-relaxed text-[16px]">
-              When I&apos;m not coding or diving into something new, you&apos;ll probably
-              find me out running, looking at charts and stats, or behind the
-              wheel in a racing sim.
-            </p>
-            <a
-              href="#links"
-              className="inline-block mt-4 px-6 py-3 bg-[var(--main-color)] border font-semibold text-center hover:opacity-90 transition hover:bg-white"
-              style={{ color: "black" }}
-            >
-              Get in Touch
-            </a>
-          </section>
+          {/* About */}
+          <About />
 
           {/* Skills */}
           <section id="skills" className="space-y-6 scroll-mt-20">
@@ -361,14 +335,8 @@ export default function Home() {
             </div>
           </section>
         </main>
-
-        {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-neutral-200 dark:border-neutral-800">
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-[var(--main-color)] font-600">© 2025 0xbiel</div>
-          </div>
-        </footer>
       </div>
+      <Footer />
     </>
   );
 }

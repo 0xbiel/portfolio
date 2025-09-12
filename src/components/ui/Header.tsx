@@ -1,100 +1,71 @@
-"use client";
-
-import Link from "next/link";
-import { useState } from "react";
-import { HiMenu, HiX } from "react-icons/hi";
+import React, { useEffect, useState } from 'react';
+import { Dithering } from '@paper-design/shaders-react';
+import { HiChevronDown } from 'react-icons/hi';
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [bgColor, setBgColor] = useState<string>('#ffffff');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const getCssVar = () =>
+      (window.getComputedStyle(document.documentElement).getPropertyValue('--bg-color') || '').trim() ||
+      // fallback depending on prefers-color-scheme
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? '#0a0a0a' : '#ffffff');
+
+    // initialize
+    setBgColor(getCssVar());
+
+    // watch for class/style attribute changes on the root (common dark-mode toggles add/remove a class)
+    const observer = new MutationObserver(() => {
+      setBgColor(getCssVar());
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
+
+    // also listen for prefers-color-scheme changes
+    const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    const onPrefChange = () => setBgColor(getCssVar());
+    if (mql) {
+      if (typeof mql.addEventListener === 'function') {
+        mql.addEventListener('change', onPrefChange);
+      } else if (typeof mql.addListener === 'function') {
+        mql.addListener(onPrefChange);
+      }
+    }
+
+    return () => {
+      observer.disconnect();
+      if (mql) {
+        if (typeof mql.removeEventListener === 'function') {
+          mql.removeEventListener('change', onPrefChange);
+        } else if (typeof mql.removeListener === 'function') {
+          mql.removeListener(onPrefChange);
+        }
+      }
+    };
+  }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-10 backdrop-blur-sm transition-all py-6 bg-background/80`}
-    >
-      <nav className="max-w-3xl mx-auto px-6 flex justify-end ">
-        {/* Desktop nav */}
-        <div className="hidden sm:flex items-center space-x-6">
-          <Link
-            href="/"
-            className="text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[var(--main-color)] after:transition-all hover:after:w-full"
-          >
-            home
-          </Link>
-          <Link
-            href="#skills"
-            className="text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[var(--main-color)] after:transition-all hover:after:w-full"
-          >
-            skills
-          </Link>
-          <Link
-            href="#projects"
-            className="text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[var(--main-color)] after:transition-all hover:after:w-full"
-          >
-            projects
-          </Link>
-          <Link
-            href="#education"
-            className="text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[var(--main-color)] after:transition-all hover:after:w-full"
-          >
-            education
-          </Link>
-          <Link
-            href="#links"
-            className="text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[var(--main-color)] after:transition-all hover:after:w-full"
-          >
-            links
-          </Link>
-        </div>
-        {/* Mobile nav */}
-        <div className="sm:hidden flex items-center">
-          <button
-            aria-label="Open menu"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="text-2xl focus:outline-none"
-          >
-            {menuOpen ? <HiX /> : <HiMenu />}
-          </button>
-          {menuOpen && (
-            <div className="absolute top-full right-6 mt-2 w-40 bg-background/95 rounded shadow-lg flex flex-col py-2 z-20">
-              <Link
-                href="/"
-                className="px-4 py-2 text-sm hover:bg-[var(--main-color)]/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                home
-              </Link>
-              <Link
-                href="#skills"
-                className="px-4 py-2 text-sm hover:bg-[var(--main-color)]/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                skills
-              </Link>
-              <Link
-                href="#projects"
-                className="px-4 py-2 text-sm hover:bg-[var(--main-color)]/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                projects
-              </Link>
-              <Link
-                href="#education"
-                className="px-4 py-2 text-sm hover:bg-[var(--main-color)]/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                education
-              </Link>
-              <Link
-                href="#links"
-                className="px-4 py-2 text-sm hover:bg-[var(--main-color)]/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                links
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
+    <header className="relative h-screen w-full overflow-hidden">
+      <Dithering
+        shape="warp"
+        type="4x4"
+        pxSize={4}
+        scale={1.93}
+        speed={0.54}
+        className="absolute inset-0 w-full h-full"
+        colorFront="#FF6600"
+        colorBack={bgColor}
+      />
+      {/* Header content */}
+      <div className="absolute bottom-20 md:bottom-8 left-4 sm:left-8 text-white">
+        <h1 className="text-7xl lg:text-8xl font-bold mb-4 mix-blend-difference">0xbiel</h1>
+      </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
+        <p className="text-lg opacity-80 mb-2">Scroll to view more</p>
+        <HiChevronDown className="text-2xl mx-auto animate-bounce" />
+      </div>
     </header>
   );
 }
