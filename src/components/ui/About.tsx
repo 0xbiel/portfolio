@@ -10,7 +10,7 @@ export default function About() {
         <span>Full Stack Dev</span>
       </div>
       <p className="text-lg leading-relaxed text-[16px]">
-        👋 Hi! I&apos;m Biel, a 19y/o Computer Engineering and Business
+        👋 Hi! I&apos;m Biel, a 19-year-old Computer Engineering and Business
         Administration undergraduate. I love learning and constantly
         improving. Right now, I&apos;m especially interested in DeFi and
         EVM-based projects.
@@ -21,9 +21,9 @@ export default function About() {
         wheel in a racing sim.
       </p>
       <a
-        href="#links"
-        className="inline-block mt-4 px-6 py-3 bg-[var(--main-color)] border font-semibold text-center hover:opacity-90 transition hover:bg-white"
-        style={{ color: "black" }}
+        href="#contact"
+        className="inline-block mt-4 px-6 py-3 bg-[var(--main-color)] font-semibold text-center hover:opacity-90 transition hover:bg-[var(--opposite)]"
+        style={{ color: "white" }}
       >
         Get in Touch
       </a>
